@@ -10,7 +10,7 @@
     jQuery.fn.yiiUploadKit = function(options) {
         var $input = this;
         var $container = $input.parent('div');
-        var $files = $('<ul>', {"class":"files"}).insertBefore($input);
+        var $files = $('<ul>', {"class":"files"});
         var $emptyInput = $container.find('.empty-value');
 
         var methods = {
@@ -20,6 +20,16 @@
                     $input.attr('name', $input.attr('name') + '[]');
                 }
                 $container.addClass('upload-kit');
+                $input.wrapAll($($files)).wrapAll($('<li class="upload-kit-input"></div>'))
+                    .after($('<span class="glyphicon glyphicon-plus-sign add"></span>'))
+                    .after($('<span class="glyphicon glyphicon-circle-arrow-down drag"></span>'))
+                    .after($('<span/>', {"data-toggle":"popover", "class":"glyphicon glyphicon-exclamation-sign error-popover"}))
+                    .after(
+                        '<div class="progress">'+
+                        '<div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>'+
+                        '</li>'
+                    );
+                $files = $input.parents('.files');
                 if (options.sortable) {
                     $files.sortable({
                         placeholder: "upload-kit-item sortable-placeholder",
@@ -30,15 +40,6 @@
                         }
                     })
                 }
-                $input.wrapAll($('<li class="upload-kit-input"></div>'))
-                    .after($('<span class="glyphicon glyphicon-plus-sign add"></span>'))
-                    .after($('<span class="glyphicon glyphicon-circle-arrow-down drag"></span>'))
-                    .after($('<span/>', {"data-toggle":"popover", "class":"glyphicon glyphicon-exclamation-sign error-popover"}))
-                    .after(
-                        '<div class="progress">'+
-                        '<div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>'+
-                        '</li>'
-                    );
                 $files.on('click', '.upload-kit-item .remove', methods.removeItem);
                 methods.checkInputVisibility();
                 methods.fileuploadInit();
