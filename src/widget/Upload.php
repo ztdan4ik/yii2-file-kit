@@ -78,6 +78,10 @@ class Upload extends InputWidget
      */
     public $messagesCategory = 'filekit/widget';
     /**
+     * @var string
+     */
+    public $label = 'Upload';
+    /**
      * @var bool preview image file or not in the upload box.
      */
     public $previewImage = true;
@@ -202,6 +206,9 @@ class Upload extends InputWidget
             'name' => $this->getFileInputName(),
             'id' => $this->getId(),
             'multiple' => $this->multiple
+        ]);
+        $content .= Html::tag('label', $this->label, [
+            'class' => 'avatar__label'
         ]);
         $content .= Html::endTag('div');
         return $content;
